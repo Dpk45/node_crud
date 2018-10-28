@@ -3,7 +3,10 @@ var userModel = require('../model/user_model')
 
 module.exports.getUsers = function(req, res){
 	console.log("getUsers called")
-	userModel.getUsers({}, function(err, user){
+	var page = parseInt(req.query.page) || 0; 
+  	var limit = parseInt(req.query.limit) || 5;
+  	var sort = req.query.sort || {}
+	userModel.getUsers({}, page, limit, sort, function(err, user){
 		if(err){
 			res.json({"msg": "failure", "error": err});
 		}else{

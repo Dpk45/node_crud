@@ -18,8 +18,10 @@ var userSchema = new Schema({
 
 var userModel = mongoose.model('user_colletion', userSchema);
 
-module.exports.getUsers = function(cond, cb){
-	userModel.find(cond, function(err, doc){
+module.exports.getUsers = function(cond, page, limit, sort, cb){
+	var query = userModel.find(cond);
+	query.skip(page*limit).limit(limit).sort(sort);
+	query.exec(function(err, doc){
 		if(err){
 			cb(err);
 		}else{
